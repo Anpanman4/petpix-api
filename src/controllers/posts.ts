@@ -13,6 +13,16 @@ export const getPosts = (req: Request, res: Response, next: NextFunction) => {
     .catch(next);
 };
 
+export const getPostsMe = (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const user = req.user;
+  Post.find({ owner: user })
+    .populate(["owner", "likes"])
+    .then(cards => {
+      res.send(cards);
+    })
+    .catch(next);
+};
+
 export const createPost = (req: RequestWithUser, res: Response, next: NextFunction) => {
   const { description, img } = req.body;
   const id = req.user._id;
