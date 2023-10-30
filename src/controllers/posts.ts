@@ -27,16 +27,23 @@ export const getPostsMe = (req: RequestWithUser, res: Response, next: NextFuncti
 export const createPost = (req: RequestWithUser, res: Response, next: NextFunction) => {
   const { description, img } = req.body;
   const id = req.user._id;
+  console.log(req.files, req.file);
+  if (req.file) {
+    const { destination, filename } = req.file;
 
-  Post.create({ img, description, owner: id })
-    .then(post => post.populate(["owner"]))
-    .then(postWithOwner => {
-      res.status(201).send(postWithOwner);
-    })
-    .catch(err => {
-      if (err.name === "ValidationError") next(new SyntaxError("Переданы некорректные данные при создании карточки."));
-      next(err);
-    });
+    Post.create({ img: `${destination}${filename}`, description, owner: id })
+      .then(post => post.populate(["owner"]))
+      .then(postWithOwner => {
+        res.status(201).send(postWithOwner);
+      })
+      .catch(err => {
+        if (err.name === "ValidationError")
+          next(new SyntaxError("Переданы некорректные данные при создании карточки."));
+        next(err);
+      });
+  } else {
+    next("Файл не передался");
+  }
 };
 
 export const doLike = (req: RequestWithUser, res: Response, next: NextFunction) => {
