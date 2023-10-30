@@ -46,7 +46,7 @@
 <tr>
 <td align="center">PATCH</td>
 <td align="center">/users/me</td>
-<td>Обновляет информацию о пользователе, а именно имя</td>
+<td>Обновляет информацию о текущем пользователе</td>
 </tr>
 </table>
 
