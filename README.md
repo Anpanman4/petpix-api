@@ -60,6 +60,18 @@
 <td align="center">/users/me</td>
 <td>Обновляет информацию о текущем пользователе</td>
 </tr>
+
+<tr>
+<td align="center">PUT</td>
+<td align="center">/users/:userId/friends</td>
+<td>Добавляет пользователя в друзья(избранное)</td>
+</tr>
+
+<tr>
+<td align="center">DELETE</td>
+<td align="center">/users/:userId/friends</td>
+<td>Удаляет пользователя из друзей(избранных)</td>
+</tr>
 </table>
 
 Для постов:</br>
