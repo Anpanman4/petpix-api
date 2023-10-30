@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import Post from "../models/post";
 
 import { RequestWithUser } from "../types/reqWithUser";
+import NotFoundError from "../errors/notFoundError";
 
 export const getPosts = (req: Request, res: Response, next: NextFunction) => {
   Post.find({})
@@ -34,6 +35,36 @@ export const createPost = (req: RequestWithUser, res: Response, next: NextFuncti
     })
     .catch(err => {
       if (err.name === "ValidationError") next(new SyntaxError("Переданы некорректные данные при создании карточки."));
+      next(err);
+    });
+};
+
+export const doLike = (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const { postId } = req.params;
+
+  Post.findByIdAndUpdate(postId, { $addToSet: { likes: req.user._id } }, { new: true })
+    .populate(["owner", "likes"])
+    .then(post => {
+      if (post) return res.send(post);
+      return next(new NotFoundError("Карточка по ID не найдена"));
+    })
+    .catch(err => {
+      if (err.name === "CastError") next(new SyntaxError("Передан невалидный ID"));
+      next(err);
+    });
+};
+
+export const removeLike = (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const { postId } = req.params;
+
+  Post.findByIdAndUpdate(postId, { $pull: { likes: req.user._id } }, { new: true })
+    .populate(["owner", "likes"])
+    .then(post => {
+      if (post) return res.send(post);
+      return next(new NotFoundError("Карточка по ID не найдена"));
+    })
+    .catch(err => {
+      if (err.name === "CastError") next(new SyntaxError("Передан невалидный ID"));
       next(err);
     });
 };
