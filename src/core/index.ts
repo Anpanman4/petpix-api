@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 import routes from "../routes/index";
+import globalError from "../middlewares/globalError";
 dotenv.config();
 
 class App {
@@ -25,6 +26,8 @@ class App {
     app.use(express.urlencoded({ extended: true }));
 
     app.use("/api", routes);
+
+    app.use(globalError);
 
     mongoose
       .connect(
