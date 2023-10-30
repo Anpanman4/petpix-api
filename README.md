@@ -4,7 +4,7 @@
 
 Все роуты будут начинаться с `http://localhost:3000/api`
 
-Для пользователей:</br>
+### Запросы для неавторизованных пользователей
 
 <table>
 <tr>
@@ -23,6 +23,18 @@
 <td align="center">POST</td>
 <td align="center">/login</td>
 <td>Проверяет переданные в теле почту и пароль и возвращает JWT</td>
+</tr>
+</table>
+
+### Дальше идут запросы только с передачей Bearer токена
+
+Для пользователей:</br>
+
+<table>
+<tr>
+<td align="center"><strong>Запрос</strong></th>
+<td align="center"><strong>Роут</strong></th>
+<td align="center"> <strong>Описание</strong></th>
 </tr>
 
 <tr>
@@ -47,6 +59,46 @@
 <td align="center">PATCH</td>
 <td align="center">/users/me</td>
 <td>Обновляет информацию о текущем пользователе</td>
+</tr>
+</table>
+
+Для постов:</br>
+
+<table>
+<tr>
+<td align="center"><strong>Запрос</strong></th>
+<td align="center"><strong>Роут</strong></th>
+<td align="center"> <strong>Описание</strong></th>
+</tr>
+
+<tr>
+<td align="center">GET</td>
+<td align="center">/posts</td>
+<td>Подтягивает посты всех пользователей</td>
+</tr>
+
+<tr>
+<td align="center">GET</td>
+<td align="center">/posts/me</td>
+<td>Подтягивает посты текущего пользователя</td>
+</tr>
+
+<tr>
+<td align="center">POST</td>
+<td align="center">/posts</td>
+<td>Создает пост, требуется передать description: string и img файлом</td>
+</tr>
+
+<tr>
+<td align="center">PUT</td>
+<td align="center">/posts/:postId/likes</td>
+<td>Добавляет лайк посту от текущего пользователся</td>
+</tr>
+
+<tr>
+<td align="center">DELETE</td>
+<td align="center">/posts/:postId/likes</td>
+<td>Удаляет лайк текущего пользователся с поста</td>
 </tr>
 </table>
 
