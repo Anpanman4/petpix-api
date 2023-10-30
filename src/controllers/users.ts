@@ -13,6 +13,7 @@ import AuthError from "../errors/authError";
 
 import { JWT_SECRET_KEY } from "../utils/utils";
 import { RequestWithUser } from "../types/reqWithUser";
+import NotFoundError from "../errors/notFoundError";
 
 dotenv.config();
 
@@ -68,8 +69,10 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
     .catch(next);
 };
 
-export const getUsers = async (req: RequestWithUser, res: Response) => {
-  return res.send(await User.find({}));
+export const getUsers = (req: RequestWithUser, res: Response) => {
+  User.find({})
+    .populate(["friends"])
+    .then(users => res.send(users));
 };
 
 export const getUserById = async (req: RequestWithUser, res: Response) => {
@@ -103,5 +106,36 @@ export const updateUserInfo = (req: RequestWithUser, res: Response, next: NextFu
       if (err.name === "ValidationError")
         return next(new SyntaxError("Переданы некорректные данные для обновления информации."));
       return next(err);
+    });
+};
+
+export const addToFriends = (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const { userId } = req.params;
+  const id = req.user._id;
+  User.findByIdAndUpdate(id, { $addToSet: { friends: userId } }, { new: true })
+    .populate(["friends"])
+    .then(user => {
+      if (user) res.send(user);
+      return next(new NotFoundError("Пользователь по ID не найден"));
+    })
+    .catch(err => {
+      if (err.name === "CastError") next(new SyntaxError("Передан невалидный ID"));
+      next(err);
+    });
+};
+
+export const removeFromFriends = (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const { userId } = req.params;
+  const id = req.user._id;
+
+  User.findByIdAndUpdate(id, { $pull: { friends: userId } }, { new: true })
+    .populate(["friends"])
+    .then(user => {
+      if (user) res.send(user);
+      return next(new NotFoundError("Пользователь по ID не найден"));
+    })
+    .catch(err => {
+      if (err.name === "CastError") next(new SyntaxError("Передан невалидный ID"));
+      next(err);
     });
 };
