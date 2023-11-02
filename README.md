@@ -15,14 +15,32 @@
 
 <tr>
 <td align="center">POST</td>
+<td align="center">/sendcode</td>
+<td>Передаем email и ждем код на указанной почте</td>
+</tr>
+
+<tr>
+<td align="center">POST</td>
+<td align="center">/replycode</td>
+<td>Передаем email, code(string) и получаем ответ</td>
+</tr>
+
+<tr>
+<td align="center">POST</td>
 <td align="center">/register</td>
-<td>Создаёт пользователя с переданными в теле email, password, username и firstName</td>
+<td>Создаёт пользователя с переданными в теле email(Уникальный), password(string), username(Уникальный) и firstName</td>
 </tr>
 
 <tr>
 <td align="center">POST</td>
 <td align="center">/login</td>
 <td>Проверяет переданные в теле почту и пароль и возвращает JWT</td>
+</tr>
+
+<tr>
+<td align="center">POST</td>
+<td align="center">/changepassword</td>
+<td>Передаем email, password(string) и получаем ответ</td>
 </tr>
 </table>
 
@@ -93,6 +111,12 @@
 <td align="center">GET</td>
 <td align="center">/posts/me</td>
 <td>Подтягивает посты текущего пользователя</td>
+</tr>
+
+<tr>
+<td align="center">GET</td>
+<td align="center">/posts/favorite</td>
+<td>Подтягивает посты друзей пользователя</td>
 </tr>
 
 <tr>

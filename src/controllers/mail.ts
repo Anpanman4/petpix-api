@@ -38,7 +38,7 @@ export const changePassword = (req: Request, res: Response) => {
   const { email, password: newPassword } = req.body;
   hash(newPassword, 10).then(hashedPassword => {
     User.findOneAndUpdate({ email }, { password: hashedPassword }).then(userWithNewPassword => {
-      res.send(userWithNewPassword);
+      res.send({ answer: "Пароль обновлен", user: userWithNewPassword });
     });
   });
 };
