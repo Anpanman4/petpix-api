@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import Post from "../models/post";
+import User from "../models/user";
 
 import { RequestWithUser } from "../types/reqWithUser";
 import NotFoundError from "../errors/notFoundError";
@@ -22,6 +23,29 @@ export const getPostsMe = (req: RequestWithUser, res: Response, next: NextFuncti
       res.send(cards);
     })
     .catch(next);
+};
+
+export const getFavoriteFriendsPhoto = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const id = req.user._id;
+  const posts: any = [];
+
+  const user = await User.findById(id);
+  if (user?.friends) {
+    for (const friend of user?.friends) {
+      const post = await Post.find({ owner: friend });
+      posts.push(...post);
+    }
+    posts.sort((a: any, b: any) => {
+      if (a.createdAt < b.createdAt) {
+        return 1;
+      }
+      if (a.createdAt > b.createdAt) {
+        return -1;
+      }
+      return 0;
+    });
+    res.send(posts);
+  }
 };
 
 export const createPost = (req: RequestWithUser, res: Response, next: NextFunction) => {
