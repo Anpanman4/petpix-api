@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
 import nodemailer from "nodemailer";
+
+dotenv.config();
 
 import { IMailLetter } from "../types/mailLetter";
 
@@ -7,14 +10,14 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: "its.pochta95@mail.ru",
-    pass: "CA8XYwUnxJYtd1g85scQ",
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
   },
 });
 
 const sendMailLetter = async ({ email, text }: IMailLetter) => {
   const info = {
-    from: "its.pochta95@mail.ru",
+    from: process.env.EMAIL,
     to: `${email}`,
     subject: "Petpix",
     text: `Текст`,
