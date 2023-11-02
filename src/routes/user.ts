@@ -5,6 +5,7 @@ const userRouter: express.Router = express.Router();
 
 userRouter.get("", getUsers);
 userRouter.get("/me", getMe);
+// Запрос на фокти друзей
 userRouter.get("/:id", getUserById);
 userRouter.patch("/me", updateUserInfo);
 userRouter.put("/:userId/friends", addToFriends);

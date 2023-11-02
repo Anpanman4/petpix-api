@@ -27,7 +27,6 @@ export const getPostsMe = (req: RequestWithUser, res: Response, next: NextFuncti
 export const createPost = (req: RequestWithUser, res: Response, next: NextFunction) => {
   const { description, img } = req.body;
   const id = req.user._id;
-  console.log(req.files, req.file);
   if (req.file) {
     const { destination, filename } = req.file;
 
