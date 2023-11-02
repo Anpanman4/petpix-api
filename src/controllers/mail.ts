@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
+import { hash } from "bcrypt";
+
+import Mail from "../models/mail";
+import User from "../models/user";
+
 import sendMailLetter from "../utils/sendMail";
 import { generateRandomCode } from "../utils/utils";
-import Mail from "../models/mail";
 
 export const sendMailLet = async (req: Request, res: Response) => {
   const code = generateRandomCode();
@@ -27,5 +31,14 @@ export const checkCode = (req: Request, res: Response) => {
       if (!data) return res.send({ answer: "Данный email не зафиксирован", isTrue: false });
       return res.send({ answer: "Неверный код", isTrue: false });
     }
+  });
+};
+
+export const changePassword = (req: Request, res: Response) => {
+  const { email, password: newPassword } = req.body;
+  hash(newPassword, 10).then(hashedPassword => {
+    User.findOneAndUpdate({ email }, { password: hashedPassword }).then(userWithNewPassword => {
+      res.send(userWithNewPassword);
+    });
   });
 };
