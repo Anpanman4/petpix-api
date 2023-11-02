@@ -4,7 +4,7 @@ const mailSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    require: true,
+    required: true,
   },
   code: {
     type: String,

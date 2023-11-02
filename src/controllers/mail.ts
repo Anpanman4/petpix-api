@@ -14,3 +14,18 @@ export const sendMailLet = async (req: Request, res: Response) => {
     res.send(answer);
   }
 };
+
+export const checkCode = (req: Request, res: Response) => {
+  const { email, code } = req.body;
+
+  Mail.findOne({ email }).then(data => {
+    if (data?.code === code) {
+      Mail.findOneAndDelete({ email }).then(response => {
+        if (response) res.send({ answer: "Код совпал", isTrue: true });
+      });
+    } else {
+      if (!data) return res.send({ answer: "Данный email не зафиксирован", isTrue: false });
+      return res.send({ answer: "Неверный код", isTrue: false });
+    }
+  });
+};
