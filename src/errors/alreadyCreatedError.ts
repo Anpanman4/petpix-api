@@ -1,8 +1,8 @@
 export default class AlreadyCreatedError extends Error {
-  private status: number;
+  private statusCode: number;
 
   constructor(message: string) {
     super(message);
-    this.status = 409;
+    this.statusCode = 409;
   }
 }

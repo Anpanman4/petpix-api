@@ -1,8 +1,8 @@
 export default class SyntaxError extends Error {
-  private status: number;
+  private statusCode: number;
 
   constructor(message: string) {
     super(message);
-    this.status = 400;
+    this.statusCode = 400;
   }
 }
