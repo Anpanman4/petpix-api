@@ -48,6 +48,11 @@ export const getFavoriteFriendsPhoto = async (req: RequestWithUser, res: Respons
   }
 };
 
+export const getPostsById = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  Post.find({ owner: id }).then(posts => res.send(posts));
+};
+
 export const createPost = (req: RequestWithUser, res: Response, next: NextFunction) => {
   const { description, img } = req.body;
   const id = req.user._id;

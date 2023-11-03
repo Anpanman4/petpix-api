@@ -120,6 +120,12 @@
 </tr>
 
 <tr>
+<td align="center">GET</td>
+<td align="center">/posts/:id</td>
+<td>Подтягивает посты пользователя по id</td>
+</tr>
+
+<tr>
 <td align="center">POST</td>
 <td align="center">/posts</td>
 <td>Создает пост, требуется передать description: string и img файлом</td>
