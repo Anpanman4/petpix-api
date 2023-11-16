@@ -15,31 +15,31 @@
 
 <tr>
 <td align="center">POST</td>
-<td align="center">/sendcode</td>
+<td align="center">/auth/sendcode</td>
 <td>Передаем email и ждем код на указанной почте</td>
 </tr>
 
 <tr>
 <td align="center">POST</td>
-<td align="center">/replycode</td>
+<td align="center">/auth/replycode</td>
 <td>Передаем email, code(string) и получаем ответ</td>
 </tr>
 
 <tr>
 <td align="center">POST</td>
-<td align="center">/register</td>
+<td align="center">/auth/register</td>
 <td>Создаёт пользователя с переданными в теле email(Уникальный), password(string), username(Уникальный) и firstName</td>
 </tr>
 
 <tr>
 <td align="center">POST</td>
-<td align="center">/login</td>
+<td align="center">/auth/login</td>
 <td>Проверяет переданные в теле почту и пароль и возвращает JWT</td>
 </tr>
 
 <tr>
 <td align="center">POST</td>
-<td align="center">/changepassword</td>
+<td align="center">/auth/changepassword</td>
 <td>Передаем email, password(string) и получаем ответ</td>
 </tr>
 </table>
