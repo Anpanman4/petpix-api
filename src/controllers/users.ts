@@ -20,16 +20,21 @@ dotenv.config();
 
 export const register = (req: Request, res: Response, next: NextFunction) => {
   const { email, password, username, firstName } = req.body;
-
   hash(password, 10)
     .then(hashedPassword => {
-      return { email, password: hashedPassword, username, firstName };
+      return {
+        email,
+        password: hashedPassword,
+        username,
+        firstName,
+        avatar: req.file ? `${req.file.destination}${req.file.filename}` : "",
+      };
     })
     .then((body: userBody) => {
       User.create(body)
         .then(user => {
           if (user) {
-            res.status(201).send({ email, username, firstName });
+            res.status(201).send({ email, username, firstName, avatar: user.avatar });
           }
         })
         .catch(err => {

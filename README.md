@@ -28,7 +28,7 @@
 <tr>
 <td align="center">POST</td>
 <td align="center">/auth/register</td>
-<td>Создаёт пользователя с переданными в теле email(Уникальный), password(string), username(Уникальный) и firstName</td>
+<td>Создаёт пользователя с переданными в теле email(Уникальный), password(string), username(Уникальный) и firstName, также по желанию можно передать файл фотографии</td>
 </tr>
 
 <tr>

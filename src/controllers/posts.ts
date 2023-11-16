@@ -54,7 +54,7 @@ export const getPostsById = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const createPost = (req: RequestWithUser, res: Response, next: NextFunction) => {
-  const { description, img } = req.body;
+  const { description } = req.body;
   const id = req.user._id;
   if (req.file) {
     const { destination, filename } = req.file;
