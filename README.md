@@ -80,6 +80,12 @@
 </tr>
 
 <tr>
+<td align="center">PATCH</td>
+<td align="center">/users/me/avatar</td>
+<td>Передаем новый файл аватара и получаем его обновленние</td>
+</tr>
+
+<tr>
 <td align="center">PUT</td>
 <td align="center">/users/:userId/friends</td>
 <td>Добавляет пользователя в друзья(избранное)</td>

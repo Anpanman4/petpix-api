@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import { hash, compare } from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
+import fs from "fs";
 
 import User from "../models/user";
 
@@ -107,6 +108,23 @@ export const updateUserInfo = (req: RequestWithUser, res: Response, next: NextFu
         return next(new SyntaxError("Переданы некорректные данные для обновления информации."));
       return next(err);
     });
+};
+
+export const updateUserAvatar = (req: RequestWithUser, res: Response, next: NextFunction) => {
+  const id = req.user._id;
+  if (req.file) {
+    const { destination, filename } = req.file;
+    User.findByIdAndUpdate(id, { avatar: `${destination}${filename}` })
+      .then(newData => {
+        fs.unlink(`${newData?.avatar}`, err => {
+          if (err) console.log(err);
+        });
+        res.send({ avatar: `${destination}${filename}` });
+      })
+      .catch(next);
+  } else {
+    res.send({ answer: "Новая аватарка не передана" });
+  }
 };
 
 export const addToFriends = (req: RequestWithUser, res: Response, next: NextFunction) => {
