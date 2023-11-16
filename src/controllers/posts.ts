@@ -70,7 +70,7 @@ export const createPost = (req: RequestWithUser, res: Response, next: NextFuncti
         next(err);
       });
   } else {
-    next("Файл не передался");
+    next(new Error("Файл не передан"));
   }
 };
 

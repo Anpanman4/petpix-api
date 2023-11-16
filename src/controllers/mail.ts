@@ -12,10 +12,10 @@ export const sendMailLet = async (req: Request, res: Response) => {
   const answer = await sendMailLetter({ email: req.body.email, text: `Твой код: ${code}` });
   if (answer === "Сообщение успешно доставлено") {
     Mail.create({ email: req.body.email, code }).then(mail => {
-      res.send(`${answer} на email ${mail.email}`);
+      res.send({ answer: `${answer} на email ${mail.email}` });
     });
   } else {
-    res.send(answer);
+    res.send({ answer: answer });
   }
 };
 
