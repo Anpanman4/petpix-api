@@ -135,12 +135,16 @@ export const updateUserAvatar = (req: RequestWithUser, res: Response, next: Next
 export const addToFriends = (req: RequestWithUser, res: Response, next: NextFunction) => {
   const { userId } = req.params;
   const id = req.user._id;
-  User.findByIdAndUpdate(id, { $addToSet: { friends: userId } }, { new: true })
-    .populate(["friends"])
-    .then(user => {
-      if (user) res.send(user);
-      return next(new NotFoundError("Пользователь по ID не найден"));
-    })
+
+  User.findByIdAndUpdate(userId, { $addToSet: { subscribers: id } }, { new: true })
+    .then(friend =>
+      User.findByIdAndUpdate(id, { $addToSet: { friends: userId } }, { new: true })
+        .populate(["friends"])
+        .then(user => {
+          if (user) return res.send(user);
+          return next(new NotFoundError("Пользователь по ID не найден"));
+        })
+    )
     .catch(err => {
       if (err.name === "CastError") next(new SyntaxError("Передан невалидный ID"));
       next(err);
@@ -151,14 +155,16 @@ export const removeFromFriends = (req: RequestWithUser, res: Response, next: Nex
   const { userId } = req.params;
   const id = req.user._id;
 
-  User.findByIdAndUpdate(id, { $pull: { friends: userId } }, { new: true })
-    .populate(["friends"])
-    .then(user => {
-      if (user) res.send(user);
-      return next(new NotFoundError("Пользователь по ID не найден"));
-    })
-    .catch(err => {
-      if (err.name === "CastError") next(new SyntaxError("Передан невалидный ID"));
-      next(err);
-    });
+  User.findByIdAndUpdate(userId, { $pull: { subscribers: id } }, { new: true }).then(friend => {
+    User.findByIdAndUpdate(id, { $pull: { friends: userId } }, { new: true })
+      .populate(["friends"])
+      .then(user => {
+        if (user) return res.send(user);
+        return next(new NotFoundError("Пользователь по ID не найден"));
+      })
+      .catch(err => {
+        if (err.name === "CastError") next(new SyntaxError("Передан невалидный ID"));
+        next(err);
+      });
+  });
 };
