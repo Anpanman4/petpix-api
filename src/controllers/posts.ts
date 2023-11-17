@@ -32,7 +32,7 @@ export const getFavoriteFriendsPhoto = async (req: RequestWithUser, res: Respons
   const user = await User.findById(id);
   if (user?.friends) {
     for (const friend of user?.friends) {
-      const post = await Post.find({ owner: friend });
+      const post = await Post.find({ owner: friend }).populate(["owner"]);
       posts.push(...post);
     }
     posts.sort((a: any, b: any) => {
